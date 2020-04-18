@@ -29,6 +29,7 @@ app.get("/", function (request, response) {
 app.post("/auth", function (request, response) {
   var username = request.body.username;
   var password = request.body.password;
+
   if (username && password) {
     connection.query(
       "SELECT * FROM accounts WHERE username = ? AND password = ?",
@@ -36,11 +37,9 @@ app.post("/auth", function (request, response) {
       function (error, results, fields) {
         if (error) {
           console.log(error);
-          var results = results.length;
-          console.log("resultados de la tabla" + results);
         }
-        results;
-        if (results > 0) {
+
+        if (results.length > 0) {
           request.session.loggedin = true;
           request.session.username = username;
           response.redirect("/home");
